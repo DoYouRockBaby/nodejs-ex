@@ -1,0 +1,24 @@
+h1 Add a new book
+form(name="addBook",method="post",action="/book/add")
+	each error in err
+		p
+			= error.toString()
+
+	input(type="text", placeholder="isbn", name="isbn")
+	br
+	input(type="text", placeholder="title", name="title")
+	br
+	input(type="text", placeholder="author", name="author")
+	br
+	input(type="date", placeholder="Buying Date", name="buyingDate")
+	br
+	input(type="text", placeholder="author", name="author")
+	br
+	select(name="type")
+		option(value="0") unused
+		option(value="1") fine
+		option(value="2") damaged
+	br
+	input(type="text", placeholder="thematics", name="thematics")
+	br
+	button(type="submit") submit
