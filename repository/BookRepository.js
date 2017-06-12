@@ -84,4 +84,12 @@ BookRepository.prototype.insert = function(book, callback) {
 	}
 };
 
+BookRepository.prototype.update = function(isbn, values, callback) {
+	db.products.update({"isbn" : isbn}, {$set: values, callback});
+};
+
+BookRepository.prototype.unset = function(isbn, values, callback) {
+	db.products.update({"isbn" : isbn}, {$unset: values, callback});
+};
+
 module.exports = BookRepository;

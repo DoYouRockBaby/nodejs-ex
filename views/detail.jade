@@ -1,0 +1,20 @@
+h1 Detail
+	p book.isbn
+	p book.title
+	p book.author
+	p book.buyingDate
+	p book.state
+	p book.thematics
+	if user.role == 'admin'
+	  | form(name="borrowBook",method="post",action="/book/#{book.isbn}/borrow")
+	  | 	input(type="text", placeholder="borrowName", name="borrowName")
+	  | 	br
+	  | 	input(type="date", placeholder="borrowDate", name="borrowDate")
+	  | 	br
+	  | 	button(type="submit") submit
+	else
+	  | form(name="unborrowBook",method="post",action="/book/#{book.isbn}/unborrow")
+	  | 	button(type="submit") unborrow
+	
+	form(name="deleteBook",method="post",action="/book/#{book.isbn}/delete")
+		button(type="submit") remove the book

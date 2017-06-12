@@ -24,7 +24,7 @@ module.exports = function(app, db)
 		res.render('add');
 	});
 
-	//GET the add book form
+	//POST a new book
 	app.post('/book/add', function(req, res)
 	{
 		var book = {
@@ -44,12 +44,56 @@ module.exports = function(app, db)
 			}
 		});
 	});
-
-	//DELETE a book
-	app.delete('/book/:bookId', function(req, res)
+	//POST remove a book
+	app.post('/book/:bookId/delete', function(req, res)
 	{
 		bookRepository.removeByIsbn(req.params.bookId, function(err, book) {
 			res.redirect('/book/list');
+		});
+	});
+
+	//POST borrow a book
+	app.post('/book/:bookId/borrow', function(req, res)
+	{
+		var borrowName = req.body.borrowName;
+		var borrowDate = req.body.borrowDate;
+		
+		var err = [];
+		if(typeOf(borrowName) == 'undefined' || !borrowName) {
+			err.push(Error('Missing argument : borrowName'));
+		}
+	
+		if(typeof borrowDate === 'string' || borrowDate instanceof String) {
+			var date = Date.parse(borrowDate);
+			if(date == NaN) {
+				err.push(Error('Incorrect argument : borrowDate has wrong date format'));
+			} else {
+				borrowDate = date;
+			}
+		}
+	
+		if(!borrowDate instanceof Date) {
+			err.push(Error('Incorrect argument : borrowDate, should be a date'));
+		}
+		
+		if(typeOf(borrowDate) == 'undefined' || !borrowDate) {
+			err.push(Error('Missing argument : borrowDate'));
+		}
+		
+		if(err.length > 0) {
+			res.redirect('/book/' + req.params.bookId);
+		} else {
+			bookRepository.update(req.params.bookId, {borrow : {name : borrowName, date : borrowDate}}, function(err, res) {
+				res.redirect('/book/' + req.params.bookId);
+			});
+		}
+	});
+
+	//POST unborrow a book
+	app.post('/book/:bookId/unborrow', function(req, res)
+	{
+		bookRepository.unset(req.params.bookId, {borrow : ""}, function(err, res) {
+			res.redirect('/book/' + req.params.bookId);
 		});
 	});
 }
