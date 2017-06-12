@@ -3,7 +3,7 @@ module.exports = function(app, db)
 	var bookRepository = require('../repository/BookRepository')(db);
 	
 	//GET a list of all the books
-	app.get('/book/list', common.isLoggedIn, function(req, res)
+	app.get('/book/list', function(req, res)
 	{
 		bookRepository.findAll(function(err, books) {
 			res.render('list', {books : books});
@@ -46,7 +46,7 @@ module.exports = function(app, db)
 	});
 
 	//DELETE a book
-	app.delete('/book/:bookId', common.isLoggedIn, function(req, res)
+	app.delete('/book/:bookId', function(req, res)
 	{
 		bookRepository.removeByIsbn(req.params.bookId, function(err, book) {
 			res.redirect('/book/list');
