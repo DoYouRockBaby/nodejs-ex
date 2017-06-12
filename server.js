@@ -76,7 +76,7 @@ app.get('/', function (req, res) {
   }
 });
 
-require('./routes/books.js')(app, db);
+require('./routes/book')(app, db);
 
 // error handling
 app.use(function(err, req, res, next){
