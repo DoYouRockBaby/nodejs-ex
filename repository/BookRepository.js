@@ -7,7 +7,7 @@ BookRepository.prototype.findAll = function(callback) {
 };
 
 BookRepository.prototype.findByIsbn = function(isbn, callback) {
-	db.collection('book').findOne({"isbn" : isbn}).toArray(callback);
+	db.collection('book').findOne({"isbn" : isbn}, callback);
 };
 
 BookRepository.prototype.removeByIsbn = function(isbn, callback) {
@@ -31,41 +31,39 @@ var isStringArray = function(array) {
 var verifyBook = function(book, callback) {
 	var errors = [];
 	
-	if(typeOf(book.isbn) == 'undefined' || !book.isbn) {
-		errors.push(Error('Missing argument : isbn'));
+	console.log(book);
+	
+	if(typeof book.isbn == 'undefined' || !book.isbn) {
+		errors.push('Missing argument : isbn');
 	} else if(isNaN(book.isbn) || book.isbn.toString().length != 13) {
-		errors.push(Error('Incorrect argument : isbn, should be a number with 13 characters'));
+		errors.push('Incorrect argument : isbn, should be a number with 13 characters');
 	}
 	
-	if(typeOf(book.title) == 'undefined' || !book.title) {
-		errors.push(Error('Missing argument : title'));
+	if(typeof book.title == 'undefined' || !book.title) {
+		errors.push('Missing argument : title');
 	}
 	
-	if(typeOf(book.author) == 'undefined' || !book.author) {
-		errors.push(Error('Missing argument : author'));
+	if(typeof book.author == 'undefined' || !book.author) {
+		errors.push('Missing argument : author');
 	}
 	
 	if(typeof book.buyingDate === 'string' || book.buyingDate instanceof String) {
 		date = Date.parse(book.buyingDate);
 		if(date == NaN) {
-			errors.push(Error('Incorrect argument : buyingDate has wrong date format'));
-		} else {
-			book.buyingDate = date;
+			errors.push('Incorrect argument : buyingDate has wrong date format');
 		}
+	} else {
+		errors.push('Missing argument : buyingDate');
 	}
 	
-	if(!book.buyingDate instanceof Date) {
-		errors.push(Error('Incorrect argument : buyingDate, should be a date'));
-	}
-	
-	if(typeOf(book.state) == 'undefined' || !book.state) {
-		errors.push(Error('Missing argument : state'));
+	if(typeof book.state == 'undefined' || !book.state) {
+		errors.push('Missing argument : state');
 	} else if(book.state != 0 && book.state != 1 && book.state != 2) {
-		errors.push(Error('Incorrect argument : state, should be 0, 1 or 2'));
+		errors.push('Incorrect argument : state, should be 0, 1 or 2');
 	}
 	
-	if(!(typeOf(book.thematics) == 'undefined' || !book.thematics) && !isStringArray(book.thematics)) {
-		errors.push(Error('Incorrect argument : thematics, should be a string array'));
+	if(!(typeof book.thematics == 'undefined' || !book.thematics) && !isStringArray(book.thematics)) {
+		errors.push('Incorrect argument : thematics, should be a string array');
 	}
 	
 	if(errors.length > 0) {
@@ -85,11 +83,11 @@ BookRepository.prototype.insert = function(book, callback) {
 };
 
 BookRepository.prototype.update = function(isbn, values, callback) {
-	db.products.update({"isbn" : isbn}, {$set: values, callback});
+	db.collection('book').update({"isbn" : isbn}, {$set: values}, callback);
 };
 
 BookRepository.prototype.unset = function(isbn, values, callback) {
-	db.products.update({"isbn" : isbn}, {$unset: values, callback});
+	db.collection('book').update({"isbn" : isbn}, {$unset: values}, callback);
 };
 
 module.exports = BookRepository;

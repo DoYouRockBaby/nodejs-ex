@@ -1,8 +1,12 @@
 h1 Add a new book
+
+a(href="/book/list") Go back the the book list
+
 form(name="addBook",method="post",action="/book/add")
-	each error in err
-		p
-			= error.toString()
+	if locals.err
+		ul
+			each error in err
+				li #{error}
 
 	input(type="text", placeholder="isbn", name="isbn")
 	br
@@ -12,9 +16,7 @@ form(name="addBook",method="post",action="/book/add")
 	br
 	input(type="date", placeholder="Buying Date", name="buyingDate")
 	br
-	input(type="text", placeholder="author", name="author")
-	br
-	select(name="type")
+	select(name="state")
 		option(value="0") unused
 		option(value="1") fine
 		option(value="2") damaged

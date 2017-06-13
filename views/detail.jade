@@ -1,20 +1,26 @@
 h1 Detail
-	p book.isbn
-	p book.title
-	p book.author
-	p book.buyingDate
-	p book.state
-	p book.thematics
-	if user.role == 'admin'
-	  | form(name="borrowBook",method="post",action="/book/#{book.isbn}/borrow")
-	  | 	input(type="text", placeholder="borrowName", name="borrowName")
-	  | 	br
-	  | 	input(type="date", placeholder="borrowDate", name="borrowDate")
-	  | 	br
-	  | 	button(type="submit") submit
-	else
-	  | form(name="unborrowBook",method="post",action="/book/#{book.isbn}/unborrow")
-	  | 	button(type="submit") unborrow
-	
-	form(name="deleteBook",method="post",action="/book/#{book.isbn}/delete")
-		button(type="submit") remove the book
+
+a(href="/book/list") Go back the the book list
+
+p ISBN : #{book.isbn}
+p Title : #{book.title}
+p Author : #{book.author}
+p Buying date : #{book.buyingDate.format('MM/DD/YYYY')}
+p State : #{book.state}
+p Thematics : #{book.thematics}
+
+h2 Emprunter
+if book.borrow
+	p Return date : #{book.borrow.date.format('MM/DD/YYYY')}
+	form(name="unborrowBook",method="post",action="/book/#{book.isbn}/unborrow")
+		button(type="submit") unborrow
+else
+	form(name="borrowBook",method="post",action="/book/#{book.isbn}/borrow")
+		input(type="text", placeholder="Your name", name="borrowName")
+		br
+		input(type="date", placeholder="Return date", name="borrowDate")
+		br
+		button(type="submit") submit
+
+form(name="deleteBook",method="post",action="/book/#{book.isbn}/delete")
+	button(type="submit") Remove the book from library

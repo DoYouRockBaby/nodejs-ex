@@ -1,9 +1,9 @@
 h1 Library
-	each books in book
-		div
-			p book.isbn
-			p book.title
-			p book.author
-			p book.buyingDate
-			p book.state
-			p book.thematics
+
+a(href="/book/add") Add a new book to the library
+
+if locals.books
+	ul
+		each book in books
+			li
+				a(href='/book/' + book.isbn) #{book.author} - #{book.title}
