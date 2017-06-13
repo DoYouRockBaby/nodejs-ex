@@ -1,5 +1,7 @@
 #TP No-SQL
 
+My project for the No-SQL TP
+
 ##To run the app with Docker Containers:
 
 1. Install Docker for Windows or Docker for Mac (If you're on Windows 7 install Docker Toolbox: http://docker.com/toolbox).
