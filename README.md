@@ -1,4 +1,6 @@
-#To run the app with Docker Containers:
+#TP No-SQL
+
+##To run the app with Docker Containers:
 
 1. Install Docker for Windows or Docker for Mac (If you're on Windows 7 install Docker Toolbox: http://docker.com/toolbox).
 
@@ -10,7 +12,7 @@
 
 5. Navigate to http://localhost:3000/book/list (http://192.168.99.100:3000/book/list if using Docker Toolbox) in your browser to view the site. This assumes that's the IP assigned to VirtualBox - change if needed.
 
-#To run the app with Node.js and MongoDB (without Docker):
+##To run the app with Node.js and MongoDB (without Docker):
 
 1. Install and start MongoDB (https://docs.mongodb.org/manual/installation).
 
