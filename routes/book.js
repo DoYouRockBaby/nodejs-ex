@@ -1,5 +1,6 @@
 module.exports = function(app, db)
 {
+	//This object manage operations on the database
 	BookRepository = require('../repository/BookRepository.js')
 	var bookRepository = new BookRepository(db);
 	
@@ -30,6 +31,7 @@ module.exports = function(app, db)
 	{
 		var book = {};
 		
+		//We check if all fields are set
 		if(typeof req.body.isbn !== 'undefined' && req.body.isbn) book.isbn = req.body.isbn;
 		if(typeof req.body.title !== 'undefined' && req.body.title) book.title = req.body.title;
 		if(typeof req.body.author !== 'undefined' && req.body.author) book.author = req.body.author;
@@ -37,6 +39,7 @@ module.exports = function(app, db)
 		if(typeof req.body.state !== 'undefined' && req.body.state) book.state = req.body.state;
 		if(typeof req.body.thematics !== 'undefined' && req.body.thematics) book.thematics = req.body.thematics.trim().split(',');
 		
+		//When done, we inser the book into the library
 		bookRepository.insert(book, function(err, item) {
 			if(item) {
 				res.redirect('/book/list');
@@ -60,6 +63,8 @@ module.exports = function(app, db)
 		var borrowName = req.body.borrowName;
 		var borrowDate = req.body.borrowDate;
 		
+		//Lets do verifications !
+
 		var err = [];
 		if(typeof borrowName == 'undefined' || !borrowName) {
 			err.push(Error('Missing argument : borrowName'));
@@ -82,6 +87,7 @@ module.exports = function(app, db)
 			err.push(Error('Missing argument : borrowDate'));
 		}
 		
+		//And now, we can update the book status
 		if(err.length > 0) {
 			res.redirect('/book/' + req.params.bookId);
 		} else {

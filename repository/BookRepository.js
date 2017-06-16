@@ -2,18 +2,22 @@ function BookRepository(db) {
 	this.db = db;
 }
 
+//Return all books presents in the database
 BookRepository.prototype.findAll = function(callback) {
 	db.collection('book').find().toArray(callback);
 };
 
+//Return a single book using isbn
 BookRepository.prototype.findByIsbn = function(isbn, callback) {
 	db.collection('book').findOne({"isbn" : isbn}, callback);
 };
 
+//Return a single book using isbn
 BookRepository.prototype.removeByIsbn = function(isbn, callback) {
 	db.collection('book').remove({"isbn" : isbn}, {safe: true}, callback);
 };
 
+//Return true if the parameter is an array of string
 var isStringArray = function(array) {
 	if(!array instanceof Array) {
 		return false;
@@ -28,6 +32,7 @@ var isStringArray = function(array) {
 	return true;
 }
 
+//Do verifications on a book object, return true if everithing is ok, return an array of string containing the error messages otherwise 
 var verifyBook = function(book, callback) {
 	var errors = [];
 	
@@ -73,6 +78,7 @@ var verifyBook = function(book, callback) {
 	}
 };
 
+//Insert a book object into the database
 BookRepository.prototype.insert = function(book, callback) {
 	var error = verifyBook(book);
 	if(error != true) {
@@ -82,10 +88,12 @@ BookRepository.prototype.insert = function(book, callback) {
 	}
 };
 
+//Update a book object, add somme values into the object, identify it by using isbn
 BookRepository.prototype.update = function(isbn, values, callback) {
 	db.collection('book').update({"isbn" : isbn}, {$set: values}, callback);
 };
 
+//Update a book object, remove somme values into the object, identify it by using isbn
 BookRepository.prototype.unset = function(isbn, values, callback) {
 	db.collection('book').update({"isbn" : isbn}, {$unset: values}, callback);
 };
