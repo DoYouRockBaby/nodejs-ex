@@ -25,3 +25,13 @@ To run the app with Node.js and MongoDB (without Docker):
 5. Run `node server.js` to start the server.
 
 6. Navigate to http://localhost:3000/book/list in your browser.
+
+About the code, there are tree files:
+
+1. The configuration of express and the access to the database is defined into server.js
+
+2. The routes for the book pages are defined into routes/book.js
+
+3. The function of database operations are defined into repository/BookRepository.js
+
+Have fun !!!
